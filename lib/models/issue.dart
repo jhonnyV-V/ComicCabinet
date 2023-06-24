@@ -12,8 +12,10 @@ class Issue {
   });
 
   factory Issue.fromJson(Map<String, dynamic> json) {
+    String? tempName = json['name'] ?? 'Unnamed';
+
     return Issue(
-      name: '${json['name']} ${json["issue_number"]}',
+      name: '$tempName #${json["issue_number"]}',
       dateAdded: json['date_added'],
       image: json['image']['original_url'],
       detailUrl: json['api_detail_url'],

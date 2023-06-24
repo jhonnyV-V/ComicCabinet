@@ -13,7 +13,7 @@ class Api {
       'format': 'json',
       'field_list': 'name,issue_number,date_added,image,api_detail_url',
       'limit': 10,
-      'sort': 'date_added:desc',
+      // 'sort': 'date_added:desc',
       'offset': offset,
     };
     List<Issue> results = [];
