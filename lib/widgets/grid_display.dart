@@ -14,6 +14,7 @@ class GridDisplay extends StatelessWidget {
   Widget build(BuildContext context) {
     DateFormat formater = DateFormat.yMMMMd('en_US');
     const Key gridKey = Key('grid key');
+    final bool isTablet = MediaQuery.of(context).size.width > 600;
     return FutureBuilder(
       future: issues,
       key: gridKey,
@@ -31,41 +32,14 @@ class GridDisplay extends StatelessWidget {
           );
         }
 
-        // return GridView.count(
-        //   crossAxisCount: 2,
-        //   shrinkWrap: true,
-        //   crossAxisSpacing: 20,
-        //   mainAxisSpacing: 200,
-        //   physics: const ScrollPhysics(),
-        //   children: List.generate(snapshot.data!.length, (index) {
-        //     Issue issue = snapshot.data![index];
-        //     String date = formater.format(
-        //       DateTime.parse(
-        //         issue.dateAdded,
-        //       ),
-        //     );
-        //     return Column(
-        //       mainAxisSize: MainAxisSize.max,
-        //       children: [
-        //         Image.network(
-        //           issue.image,
-        //           fit: BoxFit.cover,
-        //         ),
-        //         Text(issue.name),
-        //         Text(date),
-        //       ],
-        //     );
-        //   }),
-        // );
-
         return GridView.builder(
           itemCount: snapshot.data!.length,
           shrinkWrap: true,
           physics: const ScrollPhysics(),
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 10,
-            mainAxisSpacing: 10,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: isTablet ? 4 : 2,
+            crossAxisSpacing: 5,
+            mainAxisSpacing: 60,
             mainAxisExtent: 256,
           ),
           itemBuilder: (context, int index) {
@@ -84,8 +58,28 @@ class GridDisplay extends StatelessWidget {
                     fit: BoxFit.cover,
                   ),
                 ),
-                Text(issue.name),
-                Text(date),
+                const SizedBox(
+                  height: 10,
+                ),
+                SizedBox(
+                  width: 140,
+                  child: Text(
+                    issue.name,
+                    textAlign: TextAlign.center,
+                    overflow: TextOverflow.clip,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+                Text(
+                  date,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w300,
+                    fontSize: 14,
+                  ),
+                ),
               ],
             );
           },
