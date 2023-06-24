@@ -37,11 +37,40 @@ class Api {
     return results;
   }
 
+  Future<String> getCreditImage(String url) async {
+    Map<String, dynamic> parameters = {
+      'api_key': Env.apiKey,
+      'format': 'json',
+      'field_list': 'image',
+    };
+    var dio = Dio();
+    try {
+      Response response = await dio.get(
+        url,
+        queryParameters: parameters,
+      );
+      return response.data['results']['image']['original_url'];
+    } on DioException catch (err) {
+      if (err.response != null) {
+        if (err.response!.statusCode == 401) {
+          print('Invalid Api key');
+          throw Error();
+        }
+        throw Error();
+      } else {
+        print(err.requestOptions);
+        print(err.message);
+        throw Error();
+      }
+    }
+  }
+
   Future<IssueDetails> getIssueDetails(String url) async {
     Map<String, dynamic> parameters = {
       'api_key': Env.apiKey,
       'format': 'json',
-      'field_list': 'image,characterCredits,teamCredits,locationCredits',
+      'field_list':
+          'image,character_credits,team_credits,location_credits,concept_credits',
     };
     var dio = Dio();
     IssueDetails result;
@@ -50,7 +79,31 @@ class Api {
         url,
         queryParameters: parameters,
       );
-      result = IssueDetails.fromJson(response.data['result']);
+      Map<String, dynamic> populatedData = {};
+      Map<String, dynamic> results = response.data['results'];
+      populatedData['image'] = results['image']['original_url'];
+      List<String> list = [
+        'character_credits',
+        'team_credits',
+        'location_credits',
+        'concept_credits',
+      ];
+
+      for (var credits in list) {
+        if (results[credits] != null) {
+          populatedData[credits] = <Map<String, dynamic>>[];
+          for (var element in results[credits]) {
+            Map<String, dynamic> credit = {
+              'name': element['name'],
+            };
+            credit['image'] = await getCreditImage(
+              element['api_detail_url'],
+            );
+            populatedData[credits].add(credit);
+          }
+        }
+      }
+      result = IssueDetails.fromJson(populatedData);
       return result;
     } on DioException catch (err) {
       if (err.response != null) {

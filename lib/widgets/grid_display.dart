@@ -5,15 +5,17 @@ import 'package:intl/intl.dart';
 
 class GridDisplay extends StatelessWidget {
   final Future<List<Issue>> issues;
+  final void Function(BuildContext, String) redirect;
+  final Key gridKey = const Key('grid key');
   const GridDisplay({
     super.key,
     required this.issues,
+    required this.redirect,
   });
 
   @override
   Widget build(BuildContext context) {
     DateFormat formater = DateFormat.yMMMMd('en_US');
-    const Key gridKey = Key('grid key');
     final bool isTablet = MediaQuery.of(context).size.width > 600;
     return FutureBuilder(
       future: issues,
@@ -49,38 +51,43 @@ class GridDisplay extends StatelessWidget {
                 issue.dateAdded,
               ),
             );
-            return Column(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Expanded(
-                  child: Image(
-                    image: NetworkImage(issue.image),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                SizedBox(
-                  width: 140,
-                  child: Text(
-                    issue.name,
-                    textAlign: TextAlign.center,
-                    overflow: TextOverflow.clip,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
+            return InkWell(
+              onTap: () {
+                redirect(context, issue.detailUrl);
+              },
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Expanded(
+                    child: Image(
+                      image: NetworkImage(issue.image),
+                      fit: BoxFit.cover,
                     ),
                   ),
-                ),
-                Text(
-                  date,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w300,
-                    fontSize: 14,
+                  const SizedBox(
+                    height: 10,
                   ),
-                ),
-              ],
+                  SizedBox(
+                    width: 140,
+                    child: Text(
+                      issue.name,
+                      textAlign: TextAlign.center,
+                      overflow: TextOverflow.clip,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                  Text(
+                    date,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w300,
+                      fontSize: 14,
+                    ),
+                  ),
+                ],
+              ),
             );
           },
         );

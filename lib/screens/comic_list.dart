@@ -1,8 +1,9 @@
 import 'package:comic_cabinet/models/issue.dart';
 import 'package:comic_cabinet/resources/api.dart';
-import 'package:comic_cabinet/utils/constants.dart';
+import 'package:comic_cabinet/screens/issue_screen.dart';
 import 'package:comic_cabinet/widgets/grid_display.dart';
 import 'package:comic_cabinet/widgets/list_display.dart';
+import 'package:comic_cabinet/widgets/tab_icon.dart';
 import 'package:flutter/material.dart';
 
 class ComicList extends StatefulWidget {
@@ -24,27 +25,11 @@ class _ComicListState extends State<ComicList> {
 
   @override
   Widget build(BuildContext context) {
-    Widget tabIcon(
-      String label,
-      bool isActive,
-      IconData iconData,
-      VoidCallback callback,
-    ) {
-      return InkWell(
-        onTap: callback,
-        child: Row(
-          children: [
-            Icon(
-              iconData,
-              color: isActive ? Colors.black : green,
-            ),
-            Text(
-              label,
-              style: TextStyle(
-                color: isActive ? Colors.black : green,
-              ),
-            ),
-          ],
+    void redirectToIssue(BuildContext context, String detailsUrl) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => IssueScreen(apiDetailUrl: detailsUrl),
         ),
       );
     }
@@ -81,11 +66,11 @@ class _ComicListState extends State<ComicList> {
               ),
               Row(
                 children: [
-                  tabIcon(
-                    'List',
-                    viewIndex == 0,
-                    Icons.table_rows,
-                    () {
+                  TabIcon(
+                    label: 'List',
+                    isActive: viewIndex == 0,
+                    iconData: Icons.table_rows,
+                    callback: () {
                       setState(() {
                         viewIndex = 0;
                       });
@@ -94,11 +79,11 @@ class _ComicListState extends State<ComicList> {
                   const SizedBox(
                     width: 5,
                   ),
-                  tabIcon(
-                    'Grid',
-                    viewIndex == 1,
-                    Icons.apps,
-                    () {
+                  TabIcon(
+                    label: 'Grid',
+                    isActive: viewIndex == 1,
+                    iconData: Icons.apps,
+                    callback: () {
                       setState(() {
                         viewIndex = 1;
                       });
@@ -112,8 +97,14 @@ class _ComicListState extends State<ComicList> {
             color: Colors.black,
           ),
           viewIndex == 1
-              ? GridDisplay(issues: issues)
-              : ListDisplay(issues: issues),
+              ? GridDisplay(
+                  issues: issues,
+                  redirect: redirectToIssue,
+                )
+              : ListDisplay(
+                  issues: issues,
+                  redirect: redirectToIssue,
+                ),
         ],
       ),
     );

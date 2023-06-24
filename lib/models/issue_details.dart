@@ -1,22 +1,25 @@
 class IssueDetails {
   String image;
-  List<Map<String, String>> characterCredits;
-  List<Map<String, String>> teamCredits;
-  List<Map<String, String>> locationCredits;
+  List<Map<String, dynamic>>? characterCredits;
+  List<Map<String, dynamic>>? teamCredits;
+  List<Map<String, dynamic>>? locationCredits;
+  List<Map<String, dynamic>>? conceptCredits;
 
   IssueDetails({
     required this.image,
-    required this.characterCredits,
-    required this.teamCredits,
-    required this.locationCredits,
+    this.characterCredits,
+    this.teamCredits,
+    this.locationCredits,
+    this.conceptCredits,
   });
 
   factory IssueDetails.fromJson(Map<String, dynamic> json) {
     return IssueDetails(
-      image: json['image']['original_url'],
-      characterCredits: json['characterCredits'],
-      teamCredits: json['teamCredits'],
-      locationCredits: json['locationCredits'],
+      image: json['image'],
+      characterCredits: json['character_credits'],
+      teamCredits: json['team_credits'],
+      locationCredits: json['location_credits'],
+      conceptCredits: json['concept_credits'],
     );
   }
 }
