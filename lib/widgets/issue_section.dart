@@ -1,6 +1,26 @@
 import 'package:comic_cabinet/widgets/section_element.dart';
 import 'package:flutter/material.dart';
 
+abstract class ISectionElementView {
+  Widget render(
+    String name,
+    String image,
+  );
+}
+
+class SectionElementView implements ISectionElementView {
+  @override
+  Widget render(
+    String name,
+    String image,
+  ) {
+    return SectionElement(
+      name: name,
+      image: image,
+    );
+  }
+}
+
 class IssueSection extends StatelessWidget {
   final String label;
   final List<Map<String, dynamic>>? data;
@@ -59,17 +79,17 @@ class IssueSection extends StatelessWidget {
                       ? MainAxisAlignment.spaceAround
                       : MainAxisAlignment.start,
                   children: [
-                    SectionElement(
-                      name: data?[i]['name'],
-                      image: data?[i]['image'],
+                    SectionElementView().render(
+                      data?[i]['name'],
+                      data?[i]['image'],
                     ),
                     const SizedBox(
                       width: 20,
                     ),
                     i + 1 < data!.length
-                        ? SectionElement(
-                            name: data?[i + 1]['name'],
-                            image: data?[i + 1]['image'],
+                        ? SectionElementView().render(
+                            data?[i + 1]['name'],
+                            data?[i + 1]['image'],
                           )
                         : const SizedBox.shrink(),
                   ],
