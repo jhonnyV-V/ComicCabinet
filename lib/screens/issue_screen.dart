@@ -4,6 +4,7 @@ import 'package:comic_cabinet/utils/constants.dart';
 import 'package:comic_cabinet/widgets/issue_section.dart';
 import 'package:comic_cabinet/widgets/loader.dart';
 import 'package:flutter/material.dart';
+import 'package:dio/dio.dart';
 
 class IssueScreen extends StatefulWidget {
   final String apiDetailUrl;
@@ -21,7 +22,7 @@ class _IssueScreenState extends State<IssueScreen> {
   final Key issueKey = const Key('issue key');
   @override
   void initState() {
-    issueDetails = Api().getIssueDetails(widget.apiDetailUrl);
+    issueDetails = Api(Dio()).getIssueDetails(widget.apiDetailUrl);
     super.initState();
   }
 
@@ -67,10 +68,13 @@ class _IssueScreenState extends State<IssueScreen> {
                 );
               }
               IssueDetails issue = snapshot.data!;
-              bool onlyImage = issue.characterCredits == null &&
-                  issue.locationCredits == null &&
-                  issue.teamCredits == null &&
-                  issue.conceptCredits == null;
+              bool onlyImage = (issue.characterCredits == null ||
+                      issue.characterCredits!.isEmpty) &&
+                  (issue.locationCredits == null ||
+                      issue.locationCredits!.isEmpty) &&
+                  (issue.teamCredits == null || issue.teamCredits!.isEmpty) &&
+                  (issue.conceptCredits == null ||
+                      issue.conceptCredits!.isEmpty);
 
               List<Widget> layout() {
                 return [
@@ -82,6 +86,8 @@ class _IssueScreenState extends State<IssueScreen> {
                         children: [
                           FadeInImage.assetNetwork(
                             placeholder: 'assets/loading.gif',
+                            width:
+                                width > 600 && width < 880 ? width / 2.3 : null,
                             image: issue.image,
                             fit: BoxFit.cover,
                           ),
@@ -94,20 +100,26 @@ class _IssueScreenState extends State<IssueScreen> {
                     width: isTablet ? 5 : 0,
                   ),
                   onlyImage
-                      ? Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SizedBox(
-                              height: MediaQuery.of(context).size.height / 3,
-                            ),
-                            const Text(
-                              'We have no data of this comic at this moment',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
+                      ? Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              SizedBox(
+                                height: MediaQuery.of(context).size.height / 10,
                               ),
-                            ),
-                          ],
+                              const Center(
+                                child: Text(
+                                  'We have no data of this comic at this moment',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         )
                       : isTablet
                           ? Expanded(

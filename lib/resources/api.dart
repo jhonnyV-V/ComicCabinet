@@ -4,10 +4,25 @@ import 'package:comic_cabinet/models/issue_details.dart';
 import 'package:comic_cabinet/utils/constants.dart';
 import 'package:dio/dio.dart';
 
-class Api {
-  final baseApi = Dio(BaseOptions(baseUrl: baseUrl));
+abstract class IIssuesApi {
+  Future<List<Issue>> getIssues({int offset});
+}
 
-  Future<List<Issue>> getIssues({offset = 0}) async {
+abstract class IIssueDetailsApi {
+  Future<IssueDetails> getIssueDetails(String url);
+}
+
+abstract class ICreditImagesApi {
+  Future<String> getCreditImage(String url);
+}
+
+class Api implements IIssuesApi, IIssueDetailsApi, ICreditImagesApi {
+  final Dio _httpClient;
+
+  Api(this._httpClient);
+
+  @override
+  Future<List<Issue>> getIssues({int offset = 0}) async {
     Map<String, dynamic> parameters = {
       'api_key': Env.apiKey,
       'format': 'json',
@@ -18,8 +33,8 @@ class Api {
     };
     List<Issue> results = [];
     try {
-      Response response = await baseApi.get(
-        '/issues',
+      Response response = await _httpClient.get(
+        '$baseUrl/issues',
         queryParameters: parameters,
         options: Options(responseType: ResponseType.json),
       );
@@ -37,15 +52,15 @@ class Api {
     return results;
   }
 
+  @override
   Future<String> getCreditImage(String url) async {
     Map<String, dynamic> parameters = {
       'api_key': Env.apiKey,
       'format': 'json',
       'field_list': 'image',
     };
-    var dio = Dio();
     try {
-      Response response = await dio.get(
+      Response response = await _httpClient.get(
         url,
         queryParameters: parameters,
       );
@@ -65,6 +80,7 @@ class Api {
     }
   }
 
+  @override
   Future<IssueDetails> getIssueDetails(String url) async {
     Map<String, dynamic> parameters = {
       'api_key': Env.apiKey,
@@ -72,10 +88,9 @@ class Api {
       'field_list':
           'image,character_credits,team_credits,location_credits,concept_credits',
     };
-    var dio = Dio();
     IssueDetails result;
     try {
-      Response response = await dio.get(
+      Response response = await _httpClient.get(
         url,
         queryParameters: parameters,
       );

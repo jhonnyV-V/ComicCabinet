@@ -68,6 +68,7 @@ class ListDisplay extends StatelessWidget {
                       children: [
                         FadeInImage.assetNetwork(
                           placeholder: 'assets/loading.gif',
+                          width: MediaQuery.of(context).size.width / 2.5,
                           image: issue.image,
                           fit: BoxFit.cover,
                         ),
@@ -78,39 +79,41 @@ class ListDisplay extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                InkWell(
-                  onTap: () {
-                    redirect(context, issue.detailUrl);
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        SizedBox(
-                          width: 140,
-                          child: Text(
-                            issue.name,
-                            textAlign: TextAlign.center,
-                            overflow: TextOverflow.clip,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
+                Expanded(
+                  child: InkWell(
+                    onTap: () {
+                      redirect(context, issue.detailUrl);
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          SizedBox(
+                            width: 140,
+                            child: Text(
+                              issue.name,
+                              textAlign: TextAlign.center,
+                              overflow: TextOverflow.clip,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
                             ),
                           ),
-                        ),
-                        Text(
-                          date,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w300,
-                            fontSize: 14,
+                          Text(
+                            date,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w300,
+                              fontSize: 14,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),

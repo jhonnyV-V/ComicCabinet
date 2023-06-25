@@ -16,7 +16,8 @@ class GridDisplay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     DateFormat formater = DateFormat.yMMMMd('en_US');
-    final bool isTablet = MediaQuery.of(context).size.width > 600;
+    final double width = MediaQuery.of(context).size.width;
+    final bool isTablet = width > 600;
     return FutureBuilder(
       future: issues,
       key: gridKey,
@@ -40,8 +41,8 @@ class GridDisplay extends StatelessWidget {
           physics: const ScrollPhysics(),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: isTablet ? 4 : 2,
-            crossAxisSpacing: 5,
-            mainAxisSpacing: 60,
+            crossAxisSpacing: 0,
+            mainAxisSpacing: isTablet ? 30 : 60,
             mainAxisExtent: 256,
           ),
           itemBuilder: (context, int index) {

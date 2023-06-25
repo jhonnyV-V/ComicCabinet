@@ -4,6 +4,7 @@ import 'package:comic_cabinet/screens/issue_screen.dart';
 import 'package:comic_cabinet/widgets/grid_display.dart';
 import 'package:comic_cabinet/widgets/list_display.dart';
 import 'package:comic_cabinet/widgets/tab_icon.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 class ComicList extends StatefulWidget {
@@ -19,7 +20,7 @@ class _ComicListState extends State<ComicList> {
 
   @override
   void initState() {
-    issues = Api().getIssues();
+    issues = Api(Dio()).getIssues();
     super.initState();
   }
 
