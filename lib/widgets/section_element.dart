@@ -15,10 +15,15 @@ class SectionElement extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Image.network(
-          image,
+        FadeInImage.assetNetwork(
+          placeholder: 'assets/loading.gif',
+          image: image,
+          fit: BoxFit.cover,
           height: 42,
           width: 42,
+        ),
+        const SizedBox(
+          width: 5,
         ),
         SizedBox(
           width: 100,

@@ -59,9 +59,11 @@ class GridDisplay extends StatelessWidget {
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   Expanded(
-                    child: Image(
-                      image: NetworkImage(issue.image),
+                    child: FadeInImage.assetNetwork(
+                      placeholder: 'assets/loading.gif',
+                      image: issue.image,
                       fit: BoxFit.cover,
+                      imageScale: 10,
                     ),
                   ),
                   const SizedBox(

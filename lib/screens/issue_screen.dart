@@ -27,26 +27,29 @@ class _IssueScreenState extends State<IssueScreen> {
 
   @override
   Widget build(BuildContext context) {
-    bool isTablet = MediaQuery.of(context).size.width > 600;
+    double width = MediaQuery.of(context).size.width;
+    bool isTablet = width > 600;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: white,
+        title: const Text(
+          'ComicBook',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        centerTitle: true,
       ),
       body: ListView(
-        padding: const EdgeInsets.only(
-          left: 20,
+        padding: EdgeInsets.only(
+          left: isTablet ? 20 : 10,
           bottom: 30,
+          right: isTablet ? 0 : 10,
         ),
         physics: const ScrollPhysics(),
         children: [
-          const Text(
-            'ComicBook',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
           FutureBuilder(
             future: issueDetails,
             key: issueKey,
@@ -57,7 +60,7 @@ class _IssueScreenState extends State<IssueScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
-                      height: MediaQuery.of(context).size.height / 3,
+                      height: MediaQuery.of(context).size.height / 2.8,
                     ),
                     Loader(isLoading: !snapshot.hasData),
                   ],
@@ -77,8 +80,9 @@ class _IssueScreenState extends State<IssueScreen> {
                       Column(
                         mainAxisSize: MainAxisSize.max,
                         children: [
-                          Image(
-                            image: NetworkImage(issue.image),
+                          FadeInImage.assetNetwork(
+                            placeholder: 'assets/loading.gif',
+                            image: issue.image,
                             fit: BoxFit.cover,
                           ),
                         ],
@@ -105,26 +109,49 @@ class _IssueScreenState extends State<IssueScreen> {
                             ),
                           ],
                         )
-                      : Column(
-                          children: [
-                            IssueSection(
-                              label: 'Characters',
-                              data: issue.characterCredits,
+                      : isTablet
+                          ? Expanded(
+                              child: Column(
+                                children: [
+                                  IssueSection(
+                                    label: 'Characters',
+                                    data: issue.characterCredits,
+                                  ),
+                                  IssueSection(
+                                    label: 'Teams',
+                                    data: issue.teamCredits,
+                                  ),
+                                  IssueSection(
+                                    label: 'Locations',
+                                    data: issue.locationCredits,
+                                  ),
+                                  IssueSection(
+                                    label: 'Concepts',
+                                    data: issue.conceptCredits,
+                                  ),
+                                ],
+                              ),
+                            )
+                          : Column(
+                              children: [
+                                IssueSection(
+                                  label: 'Characters',
+                                  data: issue.characterCredits,
+                                ),
+                                IssueSection(
+                                  label: 'Teams',
+                                  data: issue.teamCredits,
+                                ),
+                                IssueSection(
+                                  label: 'Locations',
+                                  data: issue.locationCredits,
+                                ),
+                                IssueSection(
+                                  label: 'Concepts',
+                                  data: issue.conceptCredits,
+                                ),
+                              ],
                             ),
-                            IssueSection(
-                              label: 'Teams',
-                              data: issue.teamCredits,
-                            ),
-                            IssueSection(
-                              label: 'Locations',
-                              data: issue.locationCredits,
-                            ),
-                            IssueSection(
-                              label: 'Concepts',
-                              data: issue.conceptCredits,
-                            ),
-                          ],
-                        ),
                 ];
               }
 
@@ -135,8 +162,8 @@ class _IssueScreenState extends State<IssueScreen> {
                   isTablet
                       ? Row(
                           mainAxisSize: MainAxisSize.max,
-                          children: layout().reversed.toList(),
-                        )
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: layout().reversed.toList())
                       : Column(
                           mainAxisSize: MainAxisSize.max,
                           children: layout(),

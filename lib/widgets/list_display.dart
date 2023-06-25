@@ -66,8 +66,9 @@ class ListDisplay extends StatelessWidget {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Image(
-                          image: NetworkImage(issue.image),
+                        FadeInImage.assetNetwork(
+                          placeholder: 'assets/loading.gif',
+                          image: issue.image,
                           fit: BoxFit.cover,
                         ),
                       ],
