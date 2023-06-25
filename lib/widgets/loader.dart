@@ -22,3 +22,17 @@ class Loader extends StatelessWidget {
     return const SizedBox.shrink();
   }
 }
+
+abstract class ILoaderDisplay {
+  Widget render(bool isLoading, Widget? child);
+}
+
+class LoaderDisplay implements ILoaderDisplay {
+  @override
+  Widget render(bool isLoading, [Widget? child]) {
+    return Loader(
+      isLoading: isLoading,
+      child: child,
+    );
+  }
+}

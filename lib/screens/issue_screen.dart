@@ -70,7 +70,7 @@ class _IssueScreenState extends State<IssueScreen> {
         builder: (context, AsyncSnapshot<IssueDetails> snapshot) {
           if (!snapshot.hasData) {
             return Center(
-              child: Loader(isLoading: !snapshot.hasData),
+              child: LoaderDisplay().render(!snapshot.hasData),
             );
           }
 
