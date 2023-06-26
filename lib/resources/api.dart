@@ -29,7 +29,7 @@ class Api implements IIssuesApi, IIssueDetailsApi, ICreditImagesApi {
       'format': 'json',
       'field_list': 'name,issue_number,date_added,image,api_detail_url',
       'limit': pageSize,
-      // 'sort': 'date_added:desc',
+      'sort': 'date_added:desc',
       'offset': offset,
     };
     List<Issue> results = [];
