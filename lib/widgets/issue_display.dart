@@ -64,27 +64,47 @@ class IssueDisplay extends StatelessWidget {
           width: isTablet ? 5 : 0,
         ),
         onlyImage
-            ? Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height / 10,
+            ? isTablet
+                ? Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height / 10,
+                        ),
+                        const Center(
+                          child: Text(
+                            'We have no data of this comic at this moment',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                    const Center(
-                      child: Text(
-                        'We have no data of this comic at this moment',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
+                  )
+                : Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height / 10,
+                      ),
+                      const Center(
+                        child: Text(
+                          'We have no data of this comic at this moment',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              )
+                    ],
+                  )
             : isTablet
                 ? Expanded(
                     child: Column(
