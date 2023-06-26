@@ -6,6 +6,7 @@ import 'package:comic_cabinet/widgets/list_display.dart';
 import 'package:comic_cabinet/widgets/tab_icon.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'dart:async';
 
 abstract class IIssuesView {
   Widget render(
@@ -80,6 +81,9 @@ class _ComicListState extends State<ComicList> {
   @override
   void initState() {
     issues = Api(Dio()).getIssues();
+    issues.catchError((error) {
+      return <Issue>[];
+    });
     super.initState();
   }
 

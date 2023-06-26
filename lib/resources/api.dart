@@ -3,6 +3,7 @@ import 'package:comic_cabinet/models/issue.dart';
 import 'package:comic_cabinet/models/issue_details.dart';
 import 'package:comic_cabinet/utils/constants.dart';
 import 'package:dio/dio.dart';
+import 'dart:async';
 
 abstract class IIssuesApi {
   Future<List<Issue>> getIssues({int offset});
@@ -41,13 +42,23 @@ class Api implements IIssuesApi, IIssueDetailsApi, ICreditImagesApi {
       results = Issue.fromArray(response.data['results']);
     } on DioException catch (err) {
       if (err.response != null) {
-        if (err.response!.statusCode == 401) {
-          print('Invalid Api key');
+        switch (err.response!.statusCode) {
+          case 401:
+            throw Exception('Invalid Api Key');
+          case 100:
+            throw Exception('Invalid Api Key');
+          case 101:
+            throw Exception('Object Not Found');
+          case 102:
+            throw Exception('Error In Url Format');
+          default:
+            throw Exception('Some error has ocurred');
         }
       } else {
-        print(err.requestOptions);
-        print(err.message);
+        throw Exception(err);
       }
+    } catch (err) {
+      rethrow;
     }
     return results;
   }
@@ -67,16 +78,23 @@ class Api implements IIssuesApi, IIssueDetailsApi, ICreditImagesApi {
       return response.data['results']['image']['original_url'];
     } on DioException catch (err) {
       if (err.response != null) {
-        if (err.response!.statusCode == 401) {
-          print('Invalid Api key');
-          throw Error();
+        switch (err.response!.statusCode) {
+          case 401:
+            throw Exception('Invalid Api Key');
+          case 100:
+            throw Exception('Invalid Api Key');
+          case 101:
+            throw Exception('Object Not Found');
+          case 102:
+            throw Exception('Error In Url Format');
+          default:
+            throw Exception('Some error has ocurred');
         }
-        throw Error();
       } else {
-        print(err.requestOptions);
-        print(err.message);
-        throw Error();
+        throw Exception(err.message);
       }
+    } catch (err) {
+      rethrow;
     }
   }
 
@@ -122,16 +140,23 @@ class Api implements IIssuesApi, IIssueDetailsApi, ICreditImagesApi {
       return result;
     } on DioException catch (err) {
       if (err.response != null) {
-        if (err.response!.statusCode == 401) {
-          print('Invalid Api key');
-          throw Error();
+        switch (err.response!.statusCode) {
+          case 401:
+            throw Exception('Invalid Api Key');
+          case 100:
+            throw Exception('Invalid Api Key');
+          case 101:
+            throw Exception('Object Not Found');
+          case 102:
+            throw Exception('Error In Url Format');
+          default:
+            throw Exception('Some error has ocurred');
         }
-        throw Error();
       } else {
-        print(err.requestOptions);
-        print(err.message);
-        throw Error();
+        throw Exception(err.message);
       }
+    } catch (err) {
+      rethrow;
     }
   }
 }

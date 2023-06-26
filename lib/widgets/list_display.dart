@@ -1,4 +1,6 @@
 import 'package:comic_cabinet/models/issue.dart';
+import 'package:comic_cabinet/utils/constants.dart';
+import 'package:comic_cabinet/utils/display_error_dialog.dart';
 import 'package:comic_cabinet/widgets/loader.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -21,6 +23,14 @@ class ListDisplay extends StatelessWidget {
       future: issues,
       key: listKey,
       builder: (context, AsyncSnapshot<List<Issue>> snapshot) {
+        if (snapshot.hasError) {
+          String? message = snapshot.error.toString();
+          if (message.contains('Failed host lookup')) {
+            message = errorToMessage['internetError'];
+          }
+
+          return ShowErrorDialog().render(message!);
+        }
         if (!snapshot.hasData) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.center,

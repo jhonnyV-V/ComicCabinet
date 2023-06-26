@@ -1,6 +1,7 @@
 import 'package:comic_cabinet/models/issue_details.dart';
 import 'package:comic_cabinet/resources/api.dart';
 import 'package:comic_cabinet/utils/constants.dart';
+import 'package:comic_cabinet/utils/display_error_dialog.dart';
 import 'package:comic_cabinet/widgets/issue_display.dart';
 import 'package:comic_cabinet/widgets/loader.dart';
 import 'package:dio/dio.dart';
@@ -48,6 +49,9 @@ class _IssueScreenState extends State<IssueScreen> {
   void initState() {
     super.initState();
     _issueDetails = Api(Dio()).getIssueDetails(widget.apiDetailUrl);
+    _issueDetails.catchError((error) {
+      return IssueDetails(image: '');
+    });
   }
 
   @override
@@ -68,6 +72,14 @@ class _IssueScreenState extends State<IssueScreen> {
       body: FutureBuilder(
         future: _issueDetails,
         builder: (context, AsyncSnapshot<IssueDetails> snapshot) {
+          if (snapshot.hasError) {
+            String message = snapshot.error.toString();
+            if (message.contains('Failed host lookup')) {
+              message = errorToMessage['internetError'];
+            }
+
+            return ShowErrorDialog().render(message);
+          }
           if (!snapshot.hasData) {
             return Center(
               child: LoaderDisplay().render(!snapshot.hasData),
