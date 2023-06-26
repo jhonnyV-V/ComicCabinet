@@ -91,7 +91,7 @@
    ```sh
    flutter pub get
    ```
-4. Create a .env file following the .env.example template and place your comic vine api there
+4. Create a .env file following the .env.example template and place your comicvine api there
 5. Execute
    ```sh
    flutter pub run build_runner build
@@ -103,7 +103,6 @@
 <!-- USAGE EXAMPLES -->
 ## Usage
 [small demo video](assets/ComicCabinet.gif)
-<image src="assets/ComicCabinet.gif" alt="Small demo" width=300>
 
 <!-- CONTRIBUTING -->
 ## Contributing
