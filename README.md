@@ -30,9 +30,8 @@
 <h3 align="center">Comic Cabinet</h3>
 
   <p align="center">
-    some really simple flutter that displays comic data from [comicvine](https://comicvine.gamespot.com/)
+    some really simple flutter that displays comic data from <a href="https://comicvine.gamespot.com">comicvine</a>
     <br />
-    <a href="https://github.com/jhonnyV-V/ComicCabinet"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     <a href="https://github.com/jhonnyV-V/ComicCabinet/issues">Report Bug</a>
@@ -103,6 +102,7 @@
 
 <!-- USAGE EXAMPLES -->
 ## Usage
+[small demo video](assets/ComicCabinet.gif)
 <image src="assets/ComicCabinet.gif" alt="Small demo" width=300>
 
 <!-- CONTRIBUTING -->
