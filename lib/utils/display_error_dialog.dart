@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 
 class ErrorDialog extends StatelessWidget {
   final String errorMessage;
+  final VoidCallback? tryAgain;
   const ErrorDialog({
     super.key,
     required this.errorMessage,
+    this.tryAgain,
   });
 
   @override
@@ -23,21 +25,28 @@ class ErrorDialog extends StatelessWidget {
             color: Colors.red,
             fontSize: 24,
           ),
-        )
+        ),
+        tryAgain != null
+            ? ElevatedButton(
+                onPressed: tryAgain,
+                child: const Text('Try again'),
+              )
+            : const SizedBox.shrink(),
       ],
     );
   }
 }
 
 abstract class IShowErrorDialog {
-  Widget render(String errorMessage);
+  Widget render(String errorMessage, [VoidCallback? tryAgain]);
 }
 
 class ShowErrorDialog implements IShowErrorDialog {
   @override
-  Widget render(String errorMessage) {
+  Widget render(String errorMessage, [VoidCallback? tryAgain]) {
     return ErrorDialog(
       errorMessage: errorMessage,
+      tryAgain: tryAgain,
     );
   }
 }

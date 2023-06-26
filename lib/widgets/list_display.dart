@@ -135,3 +135,23 @@ class ListDisplay extends StatelessWidget {
     );
   }
 }
+
+abstract class IIssuesView {
+  Widget render(
+    Future<List<Issue>> issues,
+    void Function(BuildContext, String) redirect,
+  );
+}
+
+class ListIssuesView implements IIssuesView {
+  @override
+  Widget render(
+    Future<List<Issue>> issues,
+    void Function(BuildContext, String) redirect,
+  ) {
+    return ListDisplay(
+      issues: issues,
+      redirect: redirect,
+    );
+  }
+}

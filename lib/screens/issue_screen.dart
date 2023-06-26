@@ -7,29 +7,6 @@ import 'package:comic_cabinet/widgets/loader.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
-abstract class IIssueDisplayView {
-  Widget render(
-    IssueDetails issue,
-    double width,
-    bool isTablet,
-  );
-}
-
-class IssueDisplayView implements IIssueDisplayView {
-  @override
-  Widget render(
-    IssueDetails issue,
-    double width,
-    bool isTablet,
-  ) {
-    return IssueDisplay(
-      issue: issue,
-      width: width,
-      isTablet: isTablet,
-    );
-  }
-}
-
 class IssueScreen extends StatefulWidget {
   final String apiDetailUrl;
 

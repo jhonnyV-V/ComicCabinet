@@ -28,7 +28,7 @@ class Api implements IIssuesApi, IIssueDetailsApi, ICreditImagesApi {
       'api_key': Env.apiKey,
       'format': 'json',
       'field_list': 'name,issue_number,date_added,image,api_detail_url',
-      'limit': 10,
+      'limit': pageSize,
       // 'sort': 'date_added:desc',
       'offset': offset,
     };

@@ -39,3 +39,23 @@ class SectionElement extends StatelessWidget {
     );
   }
 }
+
+abstract class ISectionElementView {
+  Widget render(
+    String name,
+    String image,
+  );
+}
+
+class SectionElementView implements ISectionElementView {
+  @override
+  Widget render(
+    String name,
+    String image,
+  ) {
+    return SectionElement(
+      name: name,
+      image: image,
+    );
+  }
+}

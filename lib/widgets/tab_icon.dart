@@ -35,3 +35,29 @@ class TabIcon extends StatelessWidget {
     );
   }
 }
+
+abstract class ITabIconView {
+  Widget render(
+    String label,
+    bool isActive,
+    IconData iconData,
+    VoidCallback callback,
+  );
+}
+
+class TabIconView implements ITabIconView {
+  @override
+  Widget render(
+    String label,
+    bool isActive,
+    IconData iconData,
+    VoidCallback callback,
+  ) {
+    return TabIcon(
+      label: label,
+      isActive: isActive,
+      iconData: iconData,
+      callback: callback,
+    );
+  }
+}

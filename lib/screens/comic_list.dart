@@ -8,65 +8,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
-abstract class IIssuesView {
-  Widget render(
-    Future<List<Issue>> issues,
-    void Function(BuildContext, String) redirect,
-  );
-}
-
-class GridIssuesView implements IIssuesView {
-  @override
-  Widget render(
-    Future<List<Issue>> issues,
-    void Function(BuildContext, String) redirect,
-  ) {
-    return GridDisplay(
-      issues: issues,
-      redirect: redirect,
-    );
-  }
-}
-
-class ListIssuesView implements IIssuesView {
-  @override
-  Widget render(
-    Future<List<Issue>> issues,
-    void Function(BuildContext, String) redirect,
-  ) {
-    return ListDisplay(
-      issues: issues,
-      redirect: redirect,
-    );
-  }
-}
-
-abstract class ITabIconView {
-  Widget render(
-    String label,
-    bool isActive,
-    IconData iconData,
-    VoidCallback callback,
-  );
-}
-
-class TabIconView implements ITabIconView {
-  @override
-  Widget render(
-    String label,
-    bool isActive,
-    IconData iconData,
-    VoidCallback callback,
-  ) {
-    return TabIcon(
-      label: label,
-      isActive: isActive,
-      iconData: iconData,
-      callback: callback,
-    );
-  }
-}
-
 class ComicList extends StatefulWidget {
   const ComicList({super.key});
 

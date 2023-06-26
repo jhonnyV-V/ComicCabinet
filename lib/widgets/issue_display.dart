@@ -2,26 +2,6 @@ import 'package:comic_cabinet/models/issue_details.dart';
 import 'package:comic_cabinet/widgets/issue_section.dart';
 import 'package:flutter/material.dart';
 
-abstract class IIssueSectionView {
-  Widget render(
-    String label,
-    List<Map<String, dynamic>>? data,
-  );
-}
-
-class IssueSectionView implements IIssueSectionView {
-  @override
-  Widget render(
-    String label,
-    List<Map<String, dynamic>>? data,
-  ) {
-    return IssueSection(
-      label: label,
-      data: data,
-    );
-  }
-}
-
 class IssueDisplay extends StatelessWidget {
   final IssueDetails issue;
   final double width;
@@ -165,6 +145,29 @@ class IssueDisplay extends StatelessWidget {
                 children: layout(),
               ),
       ],
+    );
+  }
+}
+
+abstract class IIssueDisplayView {
+  Widget render(
+    IssueDetails issue,
+    double width,
+    bool isTablet,
+  );
+}
+
+class IssueDisplayView implements IIssueDisplayView {
+  @override
+  Widget render(
+    IssueDetails issue,
+    double width,
+    bool isTablet,
+  ) {
+    return IssueDisplay(
+      issue: issue,
+      width: width,
+      isTablet: isTablet,
     );
   }
 }

@@ -1,26 +1,6 @@
 import 'package:comic_cabinet/widgets/section_element.dart';
 import 'package:flutter/material.dart';
 
-abstract class ISectionElementView {
-  Widget render(
-    String name,
-    String image,
-  );
-}
-
-class SectionElementView implements ISectionElementView {
-  @override
-  Widget render(
-    String name,
-    String image,
-  ) {
-    return SectionElement(
-      name: name,
-      image: image,
-    );
-  }
-}
-
 class IssueSection extends StatelessWidget {
   final String label;
   final List<Map<String, dynamic>>? data;
@@ -98,6 +78,26 @@ class IssueSection extends StatelessWidget {
             },
           )
       ],
+    );
+  }
+}
+
+abstract class IIssueSectionView {
+  Widget render(
+    String label,
+    List<Map<String, dynamic>>? data,
+  );
+}
+
+class IssueSectionView implements IIssueSectionView {
+  @override
+  Widget render(
+    String label,
+    List<Map<String, dynamic>>? data,
+  ) {
+    return IssueSection(
+      label: label,
+      data: data,
     );
   }
 }
