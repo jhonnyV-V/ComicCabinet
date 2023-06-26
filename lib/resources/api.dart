@@ -125,14 +125,21 @@ class Api implements IIssuesApi, IIssueDetailsApi, ICreditImagesApi {
       for (var credits in list) {
         if (results[credits] != null) {
           populatedData[credits] = <Map<String, dynamic>>[];
+          List<Future<String>> futureImages = [];
           for (var element in results[credits]) {
             Map<String, dynamic> credit = {
               'name': element['name'],
             };
-            credit['image'] = await getCreditImage(
-              element['api_detail_url'],
+            futureImages.add(
+              getCreditImage(
+                element['api_detail_url'],
+              ),
             );
             populatedData[credits].add(credit);
+          }
+          List<String> images = await Future.wait(futureImages);
+          for (var i = 0; i < images.length; i++) {
+            populatedData[credits][i]['image'] = images[i];
           }
         }
       }
